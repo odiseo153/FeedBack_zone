@@ -1,0 +1,54 @@
+{
+  "common": {
+    "buttons": {
+      "save": "保存",
+      "cancel": "取消",
+      "submit": "提交",
+      "edit": "编辑",
+      "delete": "删除",
+      "confirm": "确认",
+      "back": "返回",
+      "next": "下一步",
+      "close": "关闭"
+    },
+    "navigation": {
+      "home": "首页",
+      "about": "关于",
+      "contact": "联系",
+      "dashboard": "仪表板",
+      "profile": "个人资料",
+      "settings": "设置"
+    },
+    "status": {
+      "loading": "加载中...",
+      "error": "错误",
+      "success": "成功",
+      "warning": "警告",
+      "info": "信息"
+    }
+  },
+  "pages": {
+    "welcome": {
+      "title": "立即获得您{{type}}项目的智能反馈。",
+      "subtitle": "上传您的网页或应用项目，获得个性化反馈",
+      "description": "通过AI驱动的洞察转变您的开发流程"
+    },
+    "auth": {
+      "login": "登录",
+      "register": "注册",
+      "logout": "退出",
+      "email": "邮箱",
+      "password": "密码",
+      "remember": "记住我",
+      "forgot": "忘记密码？"
+    }
+  },
+  "validation": {
+    "required": "此字段为必填项",
+    "email": "请输入有效的邮箱地址",
+    "password": "密码至少需要8个字符",
+    "confirm": "密码不匹配",
+    "min": "至少需要{{count}}个字符",
+    "max": "最多允许{{count}}个字符"
+  }
+}

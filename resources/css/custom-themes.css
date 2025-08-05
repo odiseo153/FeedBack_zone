@@ -1,0 +1,133 @@
+/* Dynamic Theme Variables */
+:root {
+  --theme-primary: #3B82F6;
+  --theme-secondary: #6366F1;
+  --theme-accent: #8B5CF6;
+}
+
+/* Dynamic Gradient Classes */
+.bg-theme-gradient {
+  background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+}
+
+.bg-theme-gradient-reverse {
+  background: linear-gradient(135deg, var(--theme-secondary) 0%, var(--theme-primary) 100%);
+}
+
+.bg-theme-gradient-accent {
+  background: linear-gradient(135deg, var(--theme-accent) 0%, var(--theme-primary) 100%);
+}
+
+.text-theme-primary {
+  color: var(--theme-primary);
+}
+
+.text-theme-secondary {
+  color: var(--theme-secondary);
+}
+
+.text-theme-accent {
+  color: var(--theme-accent);
+}
+
+.border-theme-primary {
+  border-color: var(--theme-primary);
+}
+
+.border-theme-secondary {
+  border-color: var(--theme-secondary);
+}
+
+.border-theme-accent {
+  border-color: var(--theme-accent);
+}
+
+/* Dynamic Theme Hover States */
+.hover\:bg-theme-primary:hover {
+  background-color: var(--theme-primary);
+}
+
+.hover\:bg-theme-secondary:hover {
+  background-color: var(--theme-secondary);
+}
+
+.hover\:bg-theme-accent:hover {
+  background-color: var(--theme-accent);
+}
+
+/* Dynamic Theme Focus States */
+.focus\:ring-theme-primary:focus {
+  --tw-ring-color: var(--theme-primary);
+}
+
+.focus\:ring-theme-secondary:focus {
+  --tw-ring-color: var(--theme-secondary);
+}
+
+.focus\:ring-theme-accent:focus {
+  --tw-ring-color: var(--theme-accent);
+}
+
+/* Gradient Animations */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Theme-aware components */
+.card-theme {
+  background: linear-gradient(135deg, var(--theme-primary)08 0%, var(--theme-secondary)08 100%);
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 20%, transparent);
+}
+
+.button-theme {
+  background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+  transition: all 0.2s ease;
+}
+
+.button-theme:hover {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--theme-primary) 90%, black) 0%,
+    color-mix(in srgb, var(--theme-secondary) 90%, black) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--theme-primary) 30%, transparent);
+}
+
+/* Sidebar theme integration */
+.sidebar-theme {
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--theme-primary) 5%, var(--background)) 0%,
+    var(--background) 100%);
+}
+
+.sidebar-header-theme {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--theme-primary) 15%, var(--background)) 0%,
+    color-mix(in srgb, var(--theme-secondary) 15%, var(--background)) 100%);
+}
+
+/* Dashboard theme integration */
+.dashboard-theme {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--theme-primary) 8%, var(--background)) 0%,
+    var(--background) 50%,
+    color-mix(in srgb, var(--theme-accent) 8%, var(--background)) 100%);
+}
+
+/* Navigation active states */
+.nav-active-theme {
+  background: linear-gradient(135deg,
+    color-mix(in srgb, var(--theme-primary) 15%, transparent) 0%,
+    color-mix(in srgb, var(--theme-secondary) 15%, transparent) 100%);
+  border-left: 2px solid var(--theme-primary);
+  color: var(--theme-primary);
+}

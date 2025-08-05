@@ -1,0 +1,54 @@
+{
+  "common": {
+    "buttons": {
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "submit": "Enviar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "confirm": "Confirmar",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "close": "Cerrar"
+    },
+    "navigation": {
+      "home": "Inicio",
+      "about": "Acerca de",
+      "contact": "Contacto",
+      "dashboard": "Panel",
+      "profile": "Perfil",
+      "settings": "Configuración"
+    },
+    "status": {
+      "loading": "Cargando...",
+      "error": "Error",
+      "success": "Éxito",
+      "warning": "Advertencia",
+      "info": "Información"
+    }
+  },
+  "pages": {
+    "welcome": {
+      "title": "Obtén Comentarios Inteligentes sobre tus Proyectos {{type}}. Al Instante.",
+      "subtitle": "Sube tus proyectos web o de aplicaciones y recibe comentarios personalizados",
+      "description": "Transforma tu proceso de desarrollo con insights impulsados por IA"
+    },
+    "auth": {
+      "login": "Iniciar sesión",
+      "register": "Registrarse",
+      "logout": "Cerrar sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "remember": "Recordarme",
+      "forgot": "¿Olvidaste tu contraseña?"
+    }
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "email": "Por favor ingresa un correo electrónico válido",
+    "password": "La contraseña debe tener al menos 8 caracteres",
+    "confirm": "Las contraseñas no coinciden",
+    "min": "Se requieren mínimo {{count}} caracteres",
+    "max": "Máximo {{count}} caracteres permitidos"
+  }
+}

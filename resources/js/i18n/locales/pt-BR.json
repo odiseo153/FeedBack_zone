@@ -1,0 +1,54 @@
+{
+  "common": {
+    "buttons": {
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "submit": "Enviar",
+      "edit": "Editar",
+      "delete": "Excluir",
+      "confirm": "Confirmar",
+      "back": "Voltar",
+      "next": "Próximo",
+      "close": "Fechar"
+    },
+    "navigation": {
+      "home": "Início",
+      "about": "Sobre",
+      "contact": "Contato",
+      "dashboard": "Painel",
+      "profile": "Perfil",
+      "settings": "Configurações"
+    },
+    "status": {
+      "loading": "Carregando...",
+      "error": "Erro",
+      "success": "Sucesso",
+      "warning": "Aviso",
+      "info": "Informação"
+    }
+  },
+  "pages": {
+    "welcome": {
+      "title": "Obtenha Feedback Inteligente sobre seus Projetos {{type}}. Instantaneamente.",
+      "subtitle": "Faça upload dos seus projetos web ou de aplicativos e receba feedback personalizado",
+      "description": "Transforme seu processo de desenvolvimento com insights impulsionados por IA"
+    },
+    "auth": {
+      "login": "Entrar",
+      "register": "Registrar",
+      "logout": "Sair",
+      "email": "Email",
+      "password": "Senha",
+      "remember": "Lembrar de mim",
+      "forgot": "Esqueceu a senha?"
+    }
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "email": "Por favor, insira um endereço de email válido",
+    "password": "A senha deve ter pelo menos 8 caracteres",
+    "confirm": "As senhas não coincidem",
+    "min": "Mínimo de {{count}} caracteres necessários",
+    "max": "Máximo de {{count}} caracteres permitidos"
+  }
+}

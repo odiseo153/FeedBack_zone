@@ -1,0 +1,147 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+
+@layer base {
+
+    /* Ensure text visibility for all elements */
+    h1, h2, h3, h4, h5, h6, p, div, span, label, input, textarea, button {
+        color: inherit;
+    }
+
+    /* Force text visibility for important elements */
+    .text-black {
+        color: hsl(var(--foreground)) !important;
+    }
+
+    /* Ensure proper text colors in light/dark modes */
+    :root {
+        --text-primary: hsl(var(--foreground));
+        --text-secondary: hsl(var(--muted-foreground));
+    }
+}
+
+/* Custom Theme Variables */
+:root {
+    /* Light mode variables */
+    --foreground: 224 71% 4%;          /* Default: #0F172A */
+    --muted-foreground: 215 20% 65%;   /* Default: #64748B */
+    --background: 0 0% 100%;           /* Default: #FFFFFF */
+    --primary: 217 91% 60%;            /* Default: #3B82F6 */
+    --secondary: 234 89% 74%;          /* Default: #6366F1 */
+    --accent: 262 83% 58%;             /* Default: #8B5CF6 */
+    --card: 0 0% 100%;                 /* Card background */
+    --card-foreground: 224 71% 4%;     /* Card text */
+    --muted: 210 40% 98%;              /* Muted background */
+    --border: 214 32% 91%;             /* Border color */
+    --input: 214 32% 91%;              /* Input background */
+    --ring: 217 91% 60%;               /* Focus ring */
+
+    /* Theme color variables */
+    --theme-primary: #3B82F6;
+    --theme-secondary: #6366F1;
+    --theme-accent: #8B5CF6;
+    --theme-success: #10B981;
+    --theme-warning: #F59E0B;
+    --theme-error: #EF4444;
+}
+
+/* Dark mode variables */
+.dark {
+    --foreground: 210 40% 98%;         /* Light text for dark mode */
+    --muted-foreground: 215 20% 65%;   /* Muted text for dark mode */
+    --background: 224 71% 4%;          /* Dark background */
+    --primary: 217 91% 60%;            /* Primary blue */
+    --secondary: 234 89% 74%;          /* Secondary purple */
+    --accent: 262 83% 58%;             /* Accent purple */
+    --card: 224 71% 4%;                /* Card background (dark) */
+    --card-foreground: 210 40% 98%;    /* Card text (light) */
+    --muted: 223 47% 11%;              /* Muted background (dark) */
+    --border: 216 34% 17%;             /* Border color (dark) */
+    --input: 216 34% 17%;              /* Input background (dark) */
+    --ring: 217 91% 60%;               /* Focus ring */
+}
+
+/* Dynamic Gradient Classes */
+.bg-theme-gradient {
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+}
+
+.bg-theme-gradient-reverse {
+    background: linear-gradient(135deg, var(--theme-secondary) 0%, var(--theme-primary) 100%);
+}
+
+.bg-theme-gradient-accent {
+    background: linear-gradient(135deg, var(--theme-accent) 0%, var(--theme-primary) 100%);
+}
+
+.bg-theme-gradient-header {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--theme-primary) 15%, var(--background)) 0%,
+        color-mix(in srgb, var(--theme-secondary) 15%, var(--background)) 100%);
+}
+
+.bg-theme-gradient-footer {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--theme-primary) 8%, var(--background)) 0%,
+        color-mix(in srgb, var(--theme-secondary) 8%, var(--background)) 100%);
+}
+
+.text-theme-primary {
+    color: var(--theme-primary);
+}
+
+.text-theme-secondary {
+    color: var(--theme-secondary);
+}
+
+.text-theme-accent {
+    color: var(--theme-accent);
+}
+
+.border-theme-primary {
+    border-color: var(--theme-primary);
+}
+
+/* Dynamic Theme Hover States */
+.hover\:bg-theme-primary:hover {
+    background-color: var(--theme-primary);
+}
+
+.hover\:text-theme-primary:hover {
+    color: var(--theme-primary);
+}
+
+.button-theme {
+    background: linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary) 100%);
+    transition: all 0.2s ease;
+    color: white;
+}
+
+.button-theme:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--theme-primary) 30%, transparent);
+}
+
+/* Theme-aware Navigation */
+.nav-active-theme {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--theme-primary) 15%, transparent) 0%,
+        color-mix(in srgb, var(--theme-secondary) 15%, transparent) 100%);
+    border-left: 2px solid var(--theme-primary);
+    color: var(--theme-primary);
+}
+
+/* Dashboard theme integration */
+.dashboard-theme {
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--theme-primary) 8%, var(--background)) 0%,
+        var(--background) 50%,
+        color-mix(in srgb, var(--theme-accent) 8%, var(--background)) 100%);
+}
