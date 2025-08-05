@@ -16,9 +16,12 @@ import {
   import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
   import { Badge } from "@/components/ui/badge"
   import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Link } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
+import { SharedData } from "@/types"
 
   export default function LandingPage() {
+    const { auth } = usePage<SharedData>().props;
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         {/* Navigation */}
@@ -41,9 +44,15 @@ import { Link } from "@inertiajs/react"
                 <a href="#showcase" className="text-gray-600 hover:text-gray-900 transition-colors">
                   Showcase
                 </a>
-                <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors">
-                  Sign In
-                </Link>
+                {auth?.user ? (
+                  <Link href="/dashboard" className="text-gray-600 hover:text-gray-900 transition-colors">
+                    Dashboard
+                  </Link>
+                ) : (
+                  <Link href="/login" className="text-gray-600 hover:text-gray-900 transition-colors">
+                    Sign In
+                  </Link>
+                )}
                 <Button
                   size="sm"
                   className="bg-gradient-to-r from-blue-600 to-violet-600 hover:from-blue-700 hover:to-violet-700"
@@ -77,8 +86,13 @@ import { Link } from "@inertiajs/react"
                   Submit Your Project
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-                <Link href="/feed" className="text-gray-600 hover:text-gray-900 transition-colors">
-                  View Examples
+                <Link
+                  href="/feed"
+                  className="inline-flex items-center justify-center px-5 py-2 rounded-full border border-blue-100 bg-white text-blue-700 font-semibold shadow hover:bg-blue-50 hover:text-blue-900 transition-all duration-200"
+                  style={{ boxShadow: '0 2px 16px 0 rgba(80, 112, 255, 0.08)' }}
+                >
+                  <span>View Projects</span>
+                  <ArrowRight className="ml-2 w-5 h-5" />
                 </Link>
               </div>
             </div>

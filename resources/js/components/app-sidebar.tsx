@@ -16,7 +16,8 @@ import {
     LogIn,
     PaintRoller,
     StopCircleIcon,
-    User
+    User,
+    Layers2
 } from 'lucide-react';
 import AppLogo from './app-logo';
 import { UserStats } from '@/components/user-stats';
@@ -25,8 +26,14 @@ import { UserStats } from '@/components/user-stats';
 
 export function AppSidebar() {
     const { auth } = usePage<SharedData>().props;
+
     const mainNavItems: NavItem[] = [
         {
+            title: 'Principal',
+            href: route('home'),
+            icon: Layers2
+        },
+         {
             title: 'Dashboard',
             href: '/dashboard',
             icon: Home,
@@ -35,13 +42,16 @@ export function AppSidebar() {
             title: 'Feed',
             href: '/feed',
             icon: StopCircleIcon,
-        },
-        {
+        }
+    ];
+
+    if (auth?.user) {
+        mainNavItems.push({
             title: 'My Profile',
             href: '/users/' + auth?.user?.id,
             icon: User,
-        },
-    ];
+        });
+    }
 
     const createNavItems: NavItem[] = [
         {
