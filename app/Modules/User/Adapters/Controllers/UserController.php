@@ -90,7 +90,6 @@ class UserController extends BaseController
      */
     public function updateProfile(Request $request)
     {
-        // Validation rules for profile update
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,' . auth()->id(),
@@ -103,13 +102,14 @@ class UserController extends BaseController
             'portfolio_url' => 'nullable|url',
             'twitter_handle' => 'nullable|string|max:255',
             'skills' => 'nullable|string',
-            'is_available_for_hire' => 'boolean',
+            'is_available_for_hire' => 'boolean'
         ]);
 
+        \Log::info('updateProfile', $request->all());
         // Use domain service to update
         $updatedUser = $this->updateService->execute(auth()->id(), $request->all());
 
-        return redirect()->route('profile.edit')->with('status', 'profile-updated');
+        return $updatedUser;
     }
 
     /**

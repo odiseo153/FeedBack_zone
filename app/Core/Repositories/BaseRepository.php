@@ -101,7 +101,7 @@ class BaseRepository
 
     public function update($id, array $data)
     {
-        $item = $this->findById($id);
+        $item = $this->model->find($id);
         if ($item) {
             $item->update($data);
             return $item;

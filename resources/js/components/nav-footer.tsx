@@ -19,7 +19,7 @@ export function NavFooter({
                         <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton
                                 asChild
-                                className="group relative overflow-hidden rounded-md text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-gradient-to-r hover:from-slate-100 hover:to-gray-100 dark:hover:from-slate-700 dark:hover:to-gray-700 transition-all duration-200"
+                                className="group relative overflow-hidden rounded-xl text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-white/60 dark:hover:bg-slate-700/60 hover:shadow-sm hover:shadow-slate-200/30 dark:hover:shadow-slate-900/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] backdrop-blur-sm border border-transparent hover:border-slate-200/50 dark:hover:border-slate-600/50"
                             >
                                 <a
                                     href={item.href}
@@ -27,17 +27,15 @@ export function NavFooter({
                                     className="flex items-center gap-2 w-full"
                                 >
                                     {item.icon && (
-                                        <div className="flex items-center justify-center rounded-sm p-0.5 group-hover:bg-white/60 dark:group-hover:bg-slate-600/60 transition-colors">
-                                            <Icon iconNode={item.icon} className="h-4 w-4" />
-                                        </div>
+                                        <Icon iconNode={item.icon} className="h-4 w-4 transition-all duration-300 group-hover:scale-110" />
                                     )}
-                                    <span className="font-medium text-xs group-hover:text-slate-800 dark:group-hover:text-slate-100">
+                                    <span className="font-medium text-sm group-hover:text-slate-800 dark:group-hover:text-slate-100 transition-all duration-300 group-hover:translate-x-0.5">
                                         {item.title}
                                     </span>
-                                    <ExternalLink className="h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <ExternalLink className="h-3 w-3 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110" />
 
-                                    {/* Hover effect */}
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500" />
+                                    {/* Subtle hover glow effect */}
+                                    <div className="absolute inset-0 bg-gradient-to-r from-slate-100/20 to-white/20 dark:from-slate-700/20 dark:to-slate-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl -z-10" />
                                 </a>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

@@ -30,7 +30,7 @@ Route::prefix('v1')->group(function () {
     Route::get('users', [UserController::class, 'index']);
     Route::post('users', [UserController::class, 'store'])->middleware('request:'.StoreUserRequest::class);
     Route::get('users/{id}', [UserController::class, 'show']);
-    Route::put('users/{id}', [UserController::class, 'update']);
+    Route::put('users/{id}', [UserController::class, 'updateProfile']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
 
     // Projects API - Complete CRUD with hexagonal architecture

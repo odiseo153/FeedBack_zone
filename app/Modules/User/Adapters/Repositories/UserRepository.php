@@ -65,6 +65,17 @@ class UserRepository extends BaseRepository implements UserRepositoryPort
         $this->defaultSort = '-created_at';
     }
 
+    public function update($id, array $data)
+    {
+        $item = UserModel::find($id);
+
+        if ($item) {
+            $item->update($data);
+            return $item;
+        }
+        return null;
+    }
+
 
     public function create(array $data)
     {

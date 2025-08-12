@@ -19,7 +19,9 @@
             })();
         </script>
 
-        {{-- Inline style to set the HTML background color based on our theme in app.css --}}
+        {{-- ANALYSIS: Inline background colors set here. If text resolves to black (#000) due to missing
+             or late-applied CSS variables / classes, contrast will be insufficient in dark mode.
+             Verify `.dark` class toggling and that `--foreground` resolves to a light color in dark mode. --}}
         <style>
             html {
                 background-color: oklch(1 0 0);

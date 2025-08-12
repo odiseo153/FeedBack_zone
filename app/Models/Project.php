@@ -112,4 +112,12 @@ class Project extends Model
         }
         return null;
     }
+
+    public function setThumbnailAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['thumbnail'] = 'storage/' . $value->store('project-thumbnails', 'public');
+        }
+        return $this->attributes['thumbnail'];
+    }
 }

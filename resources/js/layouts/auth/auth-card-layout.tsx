@@ -17,6 +17,7 @@ export default function AuthCardLayout({
             <div className="flex w-full max-w-md flex-col gap-6">
                 <Link href={route('home')} className="flex items-center gap-2 self-center font-medium">
                     <div className="flex h-9 w-9 items-center justify-center">
+                        {/* ANALYSIS: Uses `text-black` with dark override; ensure CSS variables are present to avoid black-on-dark. */}
                         <AppLogoIcon className="size-9 fill-current text-black dark:text-white" />
                     </div>
                 </Link>

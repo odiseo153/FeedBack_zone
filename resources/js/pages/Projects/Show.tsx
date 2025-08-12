@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, useForm, usePage, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import {
     ArrowLeft, Github, ExternalLink, Eye, Heart, MessageCircle, Star,
-    Edit, Send, ThumbsUp, Calendar
+    Edit, Send, ThumbsUp, Calendar, Trash2
 } from 'lucide-react';
 import { Project } from '@/types';
 import { SharedData } from '@/types';
@@ -46,6 +46,8 @@ function StarRating({ rating, onRatingChange, readonly = false }: {
     );
 }
 
+const urlApi = 'http://localhost:8000/';
+
 export default function ShowProject({ project }: { project: Project }) {
     const { auth } = usePage<SharedData>().props;
 
@@ -57,6 +59,7 @@ export default function ShowProject({ project }: { project: Project }) {
     const { data: commentData, setData: setCommentData, post: postComment, processing: commentProcessing, reset: resetComment } = useForm({
         content: '',
         type: 'feedback',
+        project_id: project.id,
     });
 
     const { data: ratingData, setData: setRatingData, post: postRating, processing: ratingProcessing, reset: resetRating } = useForm({
@@ -66,15 +69,13 @@ export default function ShowProject({ project }: { project: Project }) {
         innovation_score: 0,
         overall_score: 0,
         review_comment: '',
+        project_id: project.id,
     });
 
     const handleCommentSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        setCommentData('project_id', project.id);
         postComment(route('comments.store'), {
-            data: {
-                ...commentData,
-                project_id: project.id,
-            },
             onSuccess: () => {
                 resetComment();
                 setShowCommentForm(false);
@@ -84,11 +85,8 @@ export default function ShowProject({ project }: { project: Project }) {
 
     const handleRatingSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        setRatingData('project_id', project.id);
         postRating(route('ratings.store'), {
-            data: {
-                ...ratingData,
-                project_id: project.id,
-            },
             onSuccess: () => {
                 resetRating();
                 setShowRatingForm(false);
@@ -160,15 +158,26 @@ export default function ShowProject({ project }: { project: Project }) {
                                                     <Edit className="w-4 h-4" />
                                                 </Button>
                                             </Link>
+                                            <Button
+                                                variant="destructive"
+                                                size="sm"
+                                                onClick={() => {
+                                                    if (confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
+                                                        router.delete(route('projects.destroy', project.id));
+                                                    }
+                                                }}
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </Button>
                                         </div>
                                     )}
                                 </div>
 
                                 {/* Project Image */}
-                                {project.thumbnail_url && (
+                                {project.thumbnail && (
                                     <div className="aspect-video rounded-lg overflow-hidden bg-gray-100 mb-6">
                                         <img
-                                            src={project.thumbnail_url}
+                                            src={urlApi+project.thumbnail}
                                             alt={project.title}
                                             className="w-full h-full object-cover"
                                         />

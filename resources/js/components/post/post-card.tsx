@@ -64,12 +64,12 @@ const handleComment = commentOnProject(() => {
 */
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+    <Card className="group overflow-hidden border-0 bg-white shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             <Link href={`/users/${post.author.id}`}>
-              <Avatar className="w-10 h-10">
+              <Avatar className="w-10 h-10 ring-2 ring-transparent group-hover:ring-blue-500/30 transition">
                 <AvatarImage src={post.author.avatar || "/placeholder.svg"} alt={post.author.name} />
                 <AvatarFallback>{post.author.name?.slice(0, 2)}</AvatarFallback>
               </Avatar>
@@ -90,52 +90,65 @@ const handleComment = commentOnProject(() => {
               </p>
             </div>
           </div>
-          <Badge className={getStatusColor(post.feedbackStatus)}>{post.feedbackStatus}</Badge>
+          <Badge className={`${getStatusColor(post.feedbackStatus)} capitalize tracking-wide rounded-full px-2 py-1 text-xs`}>{post.feedbackStatus}</Badge>
         </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
         <div>
           <Link href={`/projects/${post.id}`}>
-            <h3 className="text-lg font-semibold hover:underline cursor-pointer">{post.title}</h3>
+            <h3 className="text-xl font-bold hover:underline cursor-pointer leading-snug line-clamp-2">{post.title}</h3>
           </Link>
-          <p className="text-muted-foreground mt-1 line-clamp-3">{post.description}</p>
+          <p className="text-muted-foreground mt-2 line-clamp-3 text-sm sm:text-base">{post.description}</p>
         </div>
 
         {post.images.length > 0 && (
           <Link href={`/projects/${post.id}`}>
-            <div className="relative aspect-video rounded-lg overflow-hidden cursor-pointer">
+            <div className="relative aspect-video rounded-xl overflow-hidden cursor-pointer ring-1 ring-gray-100 group-hover:ring-blue-200/60 transition">
               <img
                 src={post.images[0] || "/placeholder.svg"}
                 alt={post.title}
-                className="object-cover hover:scale-105 transition-transform"
+                className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
               />
+              <span className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           </Link>
         )}
 
-        <div className="flex flex-wrap gap-2">
-          {post.techStack.map((tech) => (
-            <Badge key={tech} variant="secondary" className="text-xs">
-              {tech}
-            </Badge>
-          ))}
+        {post.techStack.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {post.techStack.slice(0, 4).map((tech) => (
+              <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs rounded-full">
+                {tech}
+              </Badge>
+            ))}
+            {post.techStack.length > 4 && (
+              <Badge variant="outline" className="text-[10px] sm:text-xs rounded-full">
+                +{post.techStack.length - 4}
+              </Badge>
+            )}
+          </div>
+        )}
+
+        {post.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {post.tags.slice(0, 5).map((tag) => (
+              <Badge key={tag} variant="outline" className="text-[10px] sm:text-xs rounded-full">
+                #{tag}
+              </Badge>
+            ))}
+            {post.tags.length > 5 && (
+              <Badge variant="secondary" className="text-[10px] sm:text-xs rounded-full">+{post.tags.length - 5}</Badge>
+            )}
+          </div>
+        )}
+
+        <div className="bg-muted/50 rounded-xl p-3 sm:p-4">
+          <p className="text-sm font-semibold mb-1">AI Analysis</p>
+          <p className="text-sm text-muted-foreground line-clamp-3">{post.aiSummary}</p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="text-xs">
-              #{tag}
-            </Badge>
-          ))}
-        </div>
-
-        <div className="bg-muted/50 rounded-lg p-3">
-          <p className="text-sm font-medium mb-1">AI Analysis</p>
-          <p className="text-sm text-muted-foreground">{post.aiSummary}</p>
-        </div>
-
-        <div className="flex items-center gap-4 text-sm">
+        <div className="flex flex-wrap items-center gap-4 text-sm">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
             <span className="font-medium">{post.ratings.overall}</span>
@@ -153,7 +166,7 @@ const handleComment = commentOnProject(() => {
             <Button
               variant="ghost"
               size="sm"
-              className="gap-2 hover:text-red-600 hover:bg-red-50"
+              className="gap-2 hover:text-red-600 hover:bg-red-50 rounded-full"
             >
               <Heart className="w-4 h-4" />
               {post.likes}
@@ -161,7 +174,7 @@ const handleComment = commentOnProject(() => {
             <Button
               variant="ghost"
               size="sm"
-              className="gap-2 hover:text-blue-600 hover:bg-blue-50"
+              className="gap-2 hover:text-blue-600 hover:bg-blue-50 rounded-full"
             >
               <MessageCircle className="w-4 h-4" />
               {post.comments}
@@ -171,14 +184,14 @@ const handleComment = commentOnProject(() => {
           <div className="flex items-center gap-2">
             {post.liveUrl && (
               <Button variant="outline" size="sm" asChild>
-                <a href={post.liveUrl} target="_blank" rel="noopener noreferrer">
+                <a href={post.liveUrl} target="_blank" rel="noopener noreferrer" aria-label="Open live project" title="Open live project">
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </Button>
             )}
             {post.githubUrl && (
               <Button variant="outline" size="sm" asChild>
-                <a href={post.githubUrl} target="_blank" rel="noopener noreferrer">
+                <a href={post.githubUrl} target="_blank" rel="noopener noreferrer" aria-label="Open GitHub repo" title="Open GitHub repo">
                   <Github className="w-4 h-4" />
                 </a>
               </Button>

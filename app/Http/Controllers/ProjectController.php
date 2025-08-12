@@ -109,9 +109,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $tags = Tag::orderBy('name')->get();
+        $tags = Tag::orderBy('name')->get() ?? [];
 
-        return Inertia::render('Projects/Edit', [
+        return Inertia::render('Projects/Edit', props: [
             'project' => $project->load('tags'),
             'tags' => $tags,
         ]);
@@ -133,9 +133,10 @@ class ProjectController extends Controller
             'tech_stack.*' => 'string|max:50',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
-            'thumbnail' => 'nullable|image|max:2048',
+            'thumbnail' => 'nullable|file',
             'status' => 'required|in:draft,published',
         ]);
+
 
         // Handle thumbnail upload
         if ($request->hasFile('thumbnail')) {

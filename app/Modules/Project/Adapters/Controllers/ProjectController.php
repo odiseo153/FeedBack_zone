@@ -101,6 +101,7 @@ class ProjectController extends BaseController
      */
     public function updateWeb(StoreProjectRequest $request, $id)
     {
+
         $project = $this->updateService->execute($id, $request->validated());
 
         return redirect()->route('projects.show', $project->id)

@@ -10,6 +10,12 @@
 
 @layer base {
 
+    /* ANALYSIS: Potential legibility pitfall
+       - This codebase re-routes the Tailwind utility `text-black` to use the theme foreground color.
+       - If the CSS variables `--foreground`/`--muted-foreground` are not initialized at first paint,
+         browsers can fall back to black, causing black text on dark backgrounds (poor contrast).
+       - Verify in DevTools: check `:root`/`.dark` computed values for `--foreground`.
+       - Consider preferring semantic utilities like `text-foreground` instead of `text-black` in components. */
     /* Ensure text visibility for all elements */
     h1, h2, h3, h4, h5, h6, p, div, span, label, input, textarea, button {
         color: inherit;
@@ -27,6 +33,9 @@
     }
 }
 
+/* ANALYSIS: Theme variables are declared for both light (`:root`) and dark (`.dark`) contexts below.
+   If these are missing or overridden at runtime before first paint, `text-black` usages may resolve as black.
+   Inspect for any JS that mutates these variables too early/late and ensure no inline styles override them. */
 /* Custom Theme Variables */
 :root {
     /* Light mode variables */

@@ -7,7 +7,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
 
     return (
-        <SidebarMenu className="space-y-2">
+        <SidebarMenu className="space-y-1.5">
             {items.map((item) => {
                 const isActive = page.url.startsWith(item.href);
                 return (
@@ -17,19 +17,24 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                             isActive={isActive}
                             tooltip={{
                                 children: (
-                                    <div className="px-2 py-1 rounded bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg text-xs font-semibold">
+                                    <div className="px-3 py-2 rounded-lg bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 shadow-lg text-xs font-medium border border-slate-200 dark:border-slate-700">
                                         {item.title}
                                     </div>
                                 )
                             }}
                             className={cn(
-                                "group relative overflow-hidden rounded-xl transition-all duration-200",
-                                "hover:bg-gradient-to-r hover:from-blue-100 hover:to-purple-100 dark:hover:from-blue-950/40 dark:hover:to-purple-950/40",
-                                "hover:shadow-lg hover:scale-[1.03]",
-                                "active:scale-[0.98]",
+                                "group relative overflow-hidden rounded-xl transition-all duration-300 ease-out",
+                                "hover:bg-white/80 dark:hover:bg-slate-800/60",
+                                "hover:shadow-sm hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50",
+                                "hover:border hover:border-slate-200/60 dark:hover:border-slate-700/60",
+                                "hover:scale-[1.02] active:scale-[0.98]",
+                                "backdrop-blur-sm",
                                 isActive && [
-                                    "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg",
-                                    "nav-active-theme"
+                                    "bg-gradient-to-r from-slate-100 to-white dark:from-slate-800 dark:to-slate-700",
+                                    "shadow-sm shadow-slate-200/60 dark:shadow-slate-900/60",
+                                    "border border-slate-200/80 dark:border-slate-600/80",
+                                    "text-slate-900 dark:text-white font-medium",
+                                    "scale-[1.02]"
                                 ]
                             )}
                         >
@@ -37,57 +42,41 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                                 href={item.href}
                                 prefetch
                                 className={cn(
-                                    "flex items-center gap-4 w-full px-3 py-2",
+                                    "flex items-center gap-3 w-full px-3 py-2.5",
+                                    "transition-all duration-300 ease-out",
                                     isActive
-                                        ? "text-black"
-                                        : "text-slate-700 dark:text-slate-200"
+                                        ? "text-slate-900 dark:text-white"
+                                        : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white"
                                 )}
-                                style={{
-                                    fontWeight: isActive ? 700 : 500,
-                                    letterSpacing: isActive ? '0.01em' : undefined
-                                }}
                             >
                                 {item.icon && (
-                                    <div
+                                    <item.icon
                                         className={cn(
-                                            "flex items-center justify-center rounded-lg p-2 transition-colors duration-200 shadow-sm",
+                                            "h-4 w-4 shrink-0 transition-all duration-300 ease-out",
                                             isActive
-                                                ? "bg-white/20 text-white"
-                                                : "bg-gradient-to-tr from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 group-hover:bg-white/60 dark:group-hover:bg-slate-700/60"
+                                                ? "text-slate-700 dark:text-slate-200"
+                                                : "text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200",
+                                            "group-hover:scale-110 drop-shadow-sm"
                                         )}
-                                    >
-                                        <item.icon className={cn(
-                                            "h-5 w-5",
-                                            isActive ? "text-white drop-shadow" : "text-blue-600 dark:text-blue-300 group-hover:text-blue-700"
-                                        )} />
-                                    </div>
+                                    />
                                 )}
-                                <span
-                                    className={cn(
-                                        "font-semibold text-base transition-colors duration-200",
-                                        isActive
-                                            ? "text-white drop-shadow"
-                                            : "group-hover:text-blue-700 dark:group-hover:text-blue-200"
-                                    )}
-                                >
+                                <span className={cn(
+                                    "text-sm font-medium tracking-tight transition-all duration-300 ease-out",
+                                    isActive
+                                        ? "text-slate-900 dark:text-white font-semibold"
+                                        : "text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white",
+                                    "group-hover:translate-x-0.5"
+                                )}>
                                     {item.title}
                                 </span>
-                                {/* Animated underline for active */}
-                                <span
-                                    className={cn(
-                                        "absolute left-4 right-4 bottom-1 h-0.5 rounded-full transition-all duration-300",
-                                        isActive
-                                            ? "bg-white/80 scale-x-100"
-                                            : "bg-blue-200 dark:bg-blue-900 scale-x-0 group-hover:scale-x-100"
-                                    )}
-                                    style={{
-                                        transformOrigin: "left"
-                                    }}
-                                />
-                                {/* Active indicator pulse */}
+
+                                {/* Active indicator */}
                                 {isActive && (
-                                    <div className="absolute right-3 top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full bg-white/90 shadow-lg animate-pulse border-2 border-blue-600" />
+                                    <div className="absolute right-2 w-1.5 h-1.5 bg-slate-600 dark:bg-slate-400 rounded-full" />
                                 )}
+
+                                {/* Subtle hover glow effect */}
+                                <div className="absolute inset-0 bg-gradient-to-r from-slate-100/20 to-white/20 dark:from-slate-700/20 dark:to-slate-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>

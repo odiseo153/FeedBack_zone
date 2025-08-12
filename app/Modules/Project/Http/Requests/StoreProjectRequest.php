@@ -13,7 +13,7 @@ class StoreProjectRequest extends BaseFormRequest
             'description' => 'required|string',
             'github_url' => 'nullable|url',
             'live_url' => 'nullable|url',
-            'thumbnail' => 'nullable|url',
+            'thumbnail' => 'nullable|file',
             'project_type' => 'required|string',
             'feedback_request' => 'nullable|string',
             'status' => 'required|string',

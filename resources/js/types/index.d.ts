@@ -100,7 +100,7 @@ interface Project {
     description: string;
     github_url?: string;
     live_url?: string;
-    thumbnail_url?: string;
+    thumbnail?: string;
     project_type: string;
     feedback_request?: string;
     status: string;

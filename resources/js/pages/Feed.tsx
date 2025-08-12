@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { PostCard } from '@/components/post/post-card';
 import { transformProjectToPost } from '@/lib/utils';
+import { Project, Tag } from '@/types';
 import {
   Card, CardContent, CardHeader
 } from '@/components/ui/card';
@@ -14,43 +15,9 @@ import {
   Search, Filter, Plus, TrendingUp, Clock, Star, Code, Users, Rocket, X, Grid3X3, List
 } from 'lucide-react';
 
-interface Tag {
-  id: number;
-  name: string;
-  slug: string;
-  color: string;
-  type: string;
-  usage_count: number;
-}
+// Using shared types from `@/types`
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  username?: string;
-  avatar_url: string;
-  reputation_score: number;
-}
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  github_url?: string;
-  live_url?: string;
-  thumbnail_url?: string;
-  project_type: string;
-  views_count: number;
-  likes_count: number;
-  comments_count: number;
-  ratings_count: number;
-  average_rating?: number;
-  is_featured: boolean;
-  created_at: string;
-  user: User;
-  tags: Tag[];
-  tech_stack?: string[];
-}
+type FeedTag = Tag & { usage_count?: number };
 
 interface FeedProps {
   projects: {
@@ -58,7 +25,7 @@ interface FeedProps {
     links: Array<{ url: string; label: string; active: boolean }>;
     meta: { current_page: number; total: number; per_page: number; from: number; to: number };
   };
-  availableTags: Tag[];
+  availableTags: FeedTag[];
   projectTypeCounts: Record<string, number>;
   filters: {
     search: string;
@@ -101,11 +68,6 @@ export default function Feed({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  const handleSearch = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    updateFilters({ search: searchQuery });
-  }, [searchQuery]);
-
   const updateFilters = useCallback((newFilters: Partial<typeof filters>) => {
     router.get(window.location.pathname, {
       ...filters,
@@ -115,6 +77,11 @@ export default function Feed({
       preserveScroll: true,
     });
   }, [filters]);
+
+  const handleSearch = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    updateFilters({ search: searchQuery });
+  }, [searchQuery, updateFilters]);
 
   const toggleTag = useCallback((tagSlug: string) => {
     const newTags = selectedTags.includes(tagSlug)
@@ -181,8 +148,7 @@ export default function Feed({
         </div>
       </motion.div>
 
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        {/* Search and Filters Card */}
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">        {/* Search and Filters Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -364,7 +330,7 @@ export default function Feed({
         {/* Projects Grid/List */}
         <motion.div
           className={`${viewMode === 'grid'
-            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8'
+            ? 'grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8'
             : 'space-y-4'
           }`}
           layout
@@ -530,7 +496,7 @@ interface FilterContentProps {
     icon: React.ElementType;
   }[];
   updateFilters: (newFilters: Partial<FilterContentProps['filters']>) => void;
-  availableTags: Tag[];
+  availableTags: FeedTag[];
   selectedTags: string[];
   toggleTag: (tagSlug: string) => void;
   showTags: boolean;

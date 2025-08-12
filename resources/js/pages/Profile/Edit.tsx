@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { Head, useForm, Link } from '@inertiajs/react';
+import { Head, useForm, Link, usePage } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ import {
     ArrowLeft, Upload, Plus, X, Save, Eye, User, MapPin,
     Briefcase, Globe, Github, Twitter
 } from 'lucide-react';
+import { SharedData } from '@/types';
 
 interface User {
     id: number;
@@ -38,8 +39,10 @@ interface EditProfileProps {
 export default function EditProfile({ user }: EditProfileProps) {
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const [skillInput, setSkillInput] = useState('');
+    const { auth } = usePage<SharedData>().props;
 
-        const { data, setData, put, processing, errors, reset } = useForm({
+
+        const { data, setData, processing, errors } = useForm({
         name: user.name || '',
         username: user.username || '',
         bio: user.bio || '',
@@ -54,7 +57,7 @@ export default function EditProfile({ user }: EditProfileProps) {
         avatar: null as File | null,
     });
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         const formData = new FormData();
@@ -70,14 +73,13 @@ export default function EditProfile({ user }: EditProfileProps) {
             }
         });
 
-        put(route('profile.update'), {
-            forceFormData: true,
-            preserveScroll: true,
-            onSuccess: () => {
-                reset('avatar');
-                setAvatarPreview(null);
-            },
+
+        const response = await fetch(`/api/v1/users/${auth?.user?.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
         });
+        console.log(response);
+        console.log(data);
     };
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
