@@ -151,7 +151,7 @@ export default function ShowProject({ project }: { project: Project }) {
                                         </div>
                                     </div>
 
-                                    {auth.user?.id === project.user?.id && (
+                                    {auth.user?.id === project.user?.id || auth.user?.is_admin && (
                                         <div className="flex gap-2">
                                             <Link href={route('projects.edit', project.id)}>
                                                 <Button variant="outline" size="sm">

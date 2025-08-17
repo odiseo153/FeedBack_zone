@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
 
             // Prevent duplicate likes from the same user on the same project
             $table->unique(['project_id', 'user_id']);

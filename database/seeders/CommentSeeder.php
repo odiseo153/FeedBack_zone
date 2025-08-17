@@ -30,63 +30,63 @@ class CommentSeeder extends Seeder
             ],
             [
                 'content' => 'Great project! The architecture looks solid and the code quality is impressive. How long did this take you to build?',
-                'type' => $commentTypes->where('name', 'question')->first()->id,
+                'type' => $commentTypes->where('name', 'question')->first()->id ?? 1,
                 'likes_count' => rand(3, 15)
             ],
             [
                 'content' => 'Really well done! This solves a real problem I\'ve been facing. Are you planning to add more features in the future?',
-                'type' => $commentTypes->where('name', 'feedback')->first()->id,
+                'type' => $commentTypes->where('name', 'feedback')->first()->id ?? 1,
                 'likes_count' => rand(2, 20)
             ],
 
             // Technical feedback
             [
                 'content' => 'Nice implementation! I noticed you\'re using React hooks effectively. Have you considered using React Query for state management?',
-                'type' => $commentTypes->where('name', 'suggestion')->first()->id,
+                'type' => $commentTypes->where('name', 'suggestion')->first()->id ?? 1,
                 'likes_count' => rand(8, 30)
             ],
             [
                 'content' => 'The performance looks great! Did you implement any specific optimization techniques? I\'d love to learn more about your approach.',
-                'type' => $commentTypes->where('name', 'question')->first()->id,
+                'type' => $commentTypes->where('name', 'question')->first()->id ?? 1,
                 'likes_count' => rand(4, 18)
             ],
             [
                 'content' => 'Excellent work on the backend architecture. The microservices pattern is well implemented. How are you handling service communication?',
-                'type' => $commentTypes->where('name', 'feedback')->first()->id,
+                'type' => $commentTypes->where('name', 'feedback')->first()->id ?? 1,
                 'likes_count' => rand(6, 22)
             ],
 
             // Constructive suggestions
             [
                 'content' => 'This is a solid foundation! One suggestion: consider adding error boundaries to handle React component errors gracefully.',
-                'type' => $commentTypes->where('name', 'suggestion')->first()->id,
+                'type' => $commentTypes->where('name', 'suggestion')->first()->id ?? 1,
                 'likes_count' => rand(10, 35)
             ],
             [
                 'content' => 'Love the concept! For accessibility, you might want to add ARIA labels to the interactive elements. Overall great work though!',
-                'type' => $commentTypes->where('name', 'suggestion')->first()->id,
+                'type' => $commentTypes->where('name', 'suggestion')->first()->id ?? 1,
                 'likes_count' => rand(12, 28)
             ],
             [
                 'content' => 'Impressive project! The mobile responsiveness could use some tweaks, but the desktop experience is excellent.',
-                'type' => $commentTypes->where('name', 'feedback')->first()->id,
+                'type' => $commentTypes->where('name', 'feedback')->first()->id ?? 1,
                 'likes_count' => rand(5, 20)
             ],
 
             // Questions and engagement
             [
                 'content' => 'This is exactly what I needed! Is the code open source? I\'d love to contribute or learn from your implementation.',
-                'type' => $commentTypes->where('name', 'question')->first()->id,
+                'type' => $commentTypes->where('name', 'question')->first()->id ?? 1,
                 'likes_count' => rand(8, 25)
             ],
             [
                 'content' => 'Brilliant work! What inspired you to build this? The user experience is really thoughtful.',
-                'type' => $commentTypes->where('name', 'question')->first()->id ,
+                'type' => $commentTypes->where('name', 'question')->first()->id ?? 1,
                 'likes_count' => rand(3, 12)
             ],
             [
                 'content' => 'Amazing project! I\'m working on something similar. Would love to connect and share ideas if you\'re interested.',
-                'type' => $commentTypes->where('name', 'feedback')->first()->id,
+                'type' => $commentTypes->where('name', 'feedback')->first()->id ?? 1,
                 'likes_count' => rand(6, 18)
             ],
         ];
@@ -150,7 +150,7 @@ class CommentSeeder extends Seeder
                         'user_id' => $project->user_id,
                         'parent_id' => $mainComment->id,
                         'content' => $replyContent,
-                        'comment_type_id' => $commentTypes->where('name', 'feedback')->first()->id,
+                        'comment_type_id' => $commentTypes->where('name', 'feedback')->first()->id ?? 1,
                         'likes_count' => rand(0, 10),
                         'created_at' => $mainComment->created_at->addMinutes(rand(10, 1440)), // Reply within 24 hours
                         'updated_at' => now(),
@@ -175,7 +175,7 @@ class CommentSeeder extends Seeder
                                 'user_id' => $replier->id,
                                 'parent_id' => $mainComment->id,
                                 'content' => $additionalReply[array_rand($additionalReply)],
-                                'comment_type_id' => $commentTypes->where('name', 'feedback')->first()->id,
+                                'comment_type_id' => $commentTypes->where('name', 'feedback')->first()->id ?? 1,
                                 'likes_count' => rand(0, 5),
                                 'created_at' => $mainComment->created_at->addHours(rand(1, 48)),
                                 'updated_at' => now(),

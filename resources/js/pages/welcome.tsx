@@ -132,64 +132,129 @@ import {
         </nav>
 
         {/* ---------- Hero ---------- */}
-        <section className="p-5 relative overflow-hidden">
-          {/* Full‑width hero img */}
-          <img
-            src="https://img.freepik.com/free-vector/young-programmer-businessman-freelance-working-desk-with-laptop_40876-2665.jpg?semt=ais_hybrid&w=740&q=80"
-            alt="Project showcase"
-            width={1920}
-            height={1080}
-            className="w-full h-[calc(100vh-80px)] object-cover object-center scale-105"
-          />
+        <section className="relative overflow-hidden min-h-screen flex items-center">
+          {/* Background with parallax effect */}
+          <div className="absolute inset-0">
+            <img
+              src="https://img.freepik.com/free-vector/young-programmer-businessman-freelance-working-desk-with-laptop_40876-2665.jpg?semt=ais_hybrid&w=740&q=80"
+              alt="Project showcase"
+              width={1920}
+              height={1080}
+              className="w-full h-full object-cover object-center scale-110 transform transition-transform duration-1000"
+            />
+            {/* Enhanced gradient overlay with multiple layers */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-violet-900/60 to-purple-900/70" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+          </div>
 
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-800/60 to-violet-800/60" />
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-500" />
+          </div>
 
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center">
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+            <motion.div
+              className="mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white text-sm font-medium">
+                <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" />
+                AI-Powered Feedback Platform
+              </span>
+            </motion.div>
+
             <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4"
-              initial={{ opacity: 0, y: 10 }}
+              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
               Get Smart Feedback on Your{' '}
-              <span className="bg-gradient-to-r from-blue-400 to-violet-400 text-transparent bg-clip-text">
-                Projects. Instantly.
+              <span className="relative">
+                <span className="bg-gradient-to-r from-blue-400 via-violet-400 to-purple-400 text-transparent bg-clip-text animate-pulse">
+                  Projects
+                </span>
+                <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-violet-400 to-purple-400 rounded-full" />
+              </span>
+              <br />
+              <span className="text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-yellow-400 to-orange-400 text-transparent bg-clip-text">
+                Instantly.
               </span>
             </motion.h1>
 
             <motion.p
-              className="text-xl text-gray-200 max-w-3xl mx-auto mb-8"
-              initial={{ opacity: 0, y: 10 }}
+              className="text-xl md:text-2xl text-gray-200 max-w-4xl mx-auto mb-10 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              Upload your web or app projects and receive personalized feedback from AI and our community of
-              developers to improve your work.
+              Upload your web or app projects and receive{' '}
+              <span className="text-blue-300 font-semibold">personalized feedback</span> from AI and our community of
+              developers to <span className="text-violet-300 font-semibold">improve your work</span>.
             </motion.p>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-blue-600 to-violet-600 text-white hover:from-blue-700 hover:to-violet-700"
+                className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 via-violet-600 to-purple-600 text-white font-semibold rounded-full shadow-2xl hover:shadow-blue-500/25 hover:scale-105 transition-all duration-300 border border-white/20"
               >
-                Submit Your Project
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <span className="relative z-10 flex items-center">
+                  Submit Your Project
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-violet-700 to-purple-700 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Button>
+
               <Link
                 href="/feed"
-                className="inline-flex items-center justify-center px-5 py-3 rounded-full border border-white/20 bg-white text-blue-700 font-semibold shadow-sm hover:bg-blue-50 transition-all"
+                className="group inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-white/30 bg-white/10 backdrop-blur-sm text-white font-semibold shadow-xl hover:bg-white/20 hover:border-white/50 hover:scale-105 transition-all duration-300"
               >
                 <span>View Projects</span>
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
+
+            {/* Stats section */}
+            <motion.div
+              className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              {[
+                { number: '10K+', label: 'Projects Reviewed' },
+                { number: '5K+', label: 'Active Developers' },
+                { number: '98%', label: 'Satisfaction Rate' },
+                { number: '24/7', label: 'AI Feedback' }
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-2xl md:text-3xl font-bold text-white mb-1">{stat.number}</div>
+                  <div className="text-sm text-gray-300">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
           </div>
+
+          {/* Scroll indicator */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+          >
+            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-white rounded-full mt-2 animate-bounce" />
+            </div>
+          </motion.div>
         </section>
 
         {/* ---------- How It Works ---------- */}
@@ -412,7 +477,7 @@ import {
                 title="TaskFlow Pro"
                 subtitle="Modern task management with AI scheduling"
                 category="Productivity"
-                rating="4.8"
+                rating={4.8}
                 author="John Doe"
               />
 
@@ -420,7 +485,7 @@ import {
                 title="CryptoTracker"
                 subtitle="Real-time crypto portfolio dashboard"
                 category="Finance"
-                rating="4.6"
+                rating={4.6}
                 author="Sarah Miller"
               />
 
@@ -428,7 +493,7 @@ import {
                 title="DevConnect"
                 subtitle="Networking platform for devs"
                 category="Social"
-                rating="4.9"
+                rating={4.9}
                 author="Mike Johnson"
               />
             </motion.div>
@@ -459,55 +524,92 @@ import {
 
             <motion.div
               className="max-w-4xl mx-auto"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <Card className="border-0 shadow-2xl">
-                <CardHeader className="bg-gradient-to-r from-blue-600 to-violet-600 text-white rounded-t-lg">
-                  <CardTitle className="flex items-center space-x-2">
-                    <Zap className="w-5 h-5" />
-                    <span>AI Analysis Report</span>
-                  </CardTitle>
-                  <CardDescription className="text-blue-100">
-                    Comprehensive feedback for “TaskFlow Pro”
-                  </CardDescription>
+              <Card className="border-0 shadow-2xl overflow-hidden bg-white">
+                <CardHeader className="bg-gradient-to-r from-blue-600 via-purple-600 to-violet-600 text-white relative">
+                  <div className="absolute inset-0 bg-black/10"></div>
+                  <div className="relative z-10">
+                    <CardTitle className="flex p-2 items-center space-x-3 text-xl">
+                      <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                        <Zap className="w-6 h-6" />
+                      </div>
+                      <span>AI Analysis Report</span>
+                    </CardTitle>
+                    <CardDescription className="text-blue-100 mt-2 text-base">
+                      Comprehensive feedback for "TaskFlow Pro"
+                    </CardDescription>
+                  </div>
                 </CardHeader>
-                <CardContent className="p-6 space-y-6">
+                <CardContent className="p-8 space-y-8">
                   {/* Code Quality */}
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1 flex items-center">
-                      <Code className="w-4 h-4 mr-2 text-blue-600" />
-                      Code Quality Score: 8.5/10
-                    </h4>
-                    <p className="text-gray-600 text-sm">
-                      Your code follows best practices with good separation. Consider error boundaries for better
-                      handling.
+                  <div className="group hover:bg-blue-50/50 p-4 rounded-xl transition-all duration-300">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-gray-900 flex items-center text-lg">
+                        <div className="p-2 bg-blue-100 rounded-lg mr-3 group-hover:bg-blue-200 transition-colors">
+                          <Code className="w-5 h-5 text-blue-600" />
+                        </div>
+                        Code Quality Score
+                      </h4>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="w-4/5 h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
+                        </div>
+                        <span className="font-bold text-blue-600">8.5/10</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">
+                      Your code follows best practices with excellent separation of concerns. Consider implementing error boundaries for enhanced error handling and user experience.
                     </p>
                   </div>
 
                   {/* SEO Score */}
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1 flex items-center">
-                      <Search className="w-4 h-4 mr-2 text-violet-600" />
-                      SEO Score: 7.2/10
-                    </h4>
-                    <p className="text-gray-600 text-sm">
-                      Good meta descriptions. Improve loading speed & add structured data for better
-                      visibility.
+                  <div className="group hover:bg-violet-50/50 p-4 rounded-xl transition-all duration-300">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="font-semibold text-gray-900 flex items-center text-lg">
+                        <div className="p-2 bg-violet-100 rounded-lg mr-3 group-hover:bg-violet-200 transition-colors">
+                          <Search className="w-5 h-5 text-violet-600" />
+                        </div>
+                        SEO Score
+                      </h4>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="w-3/5 h-full bg-gradient-to-r from-violet-500 to-violet-600 rounded-full"></div>
+                        </div>
+                        <span className="font-bold text-violet-600">7.2/10</span>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">
+                      Strong meta descriptions and semantic HTML structure. Enhance loading performance and implement structured data markup for improved search visibility.
                     </p>
                   </div>
 
                   {/* UX Recommendations */}
-                  <div>
-                    <h4 className="font-semibold text-gray-900 mb-1 flex items-center">
-                      <Eye className="w-4 h-4 mr-2 text-blue-600" />
-                      UX Recommendations
-                    </h4>
-                    <p className="text-gray-600 text-sm">
-                      Add keyboard shortcuts for power users & improve onboarding flow with interactive
-                      tutorials.
-                    </p>
+                  <div className="group hover:bg-emerald-50/50 p-4 rounded-xl transition-all duration-300">
+                    <div className="flex items-center mb-3">
+                      <h4 className="font-semibold text-gray-900 flex items-center text-lg">
+                        <div className="p-2 bg-emerald-100 rounded-lg mr-3 group-hover:bg-emerald-200 transition-colors">
+                          <Eye className="w-5 h-5 text-emerald-600" />
+                        </div>
+                        UX Recommendations
+                      </h4>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <p className="text-gray-600 leading-relaxed">
+                          Implement keyboard shortcuts for power users to enhance productivity
+                        </p>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
+                        <p className="text-gray-600 leading-relaxed">
+                          Add interactive onboarding tutorials to reduce learning curve
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

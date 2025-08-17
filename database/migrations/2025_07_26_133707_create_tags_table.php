@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('usage_count')->default(0);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['type', 'usage_count']);
         });

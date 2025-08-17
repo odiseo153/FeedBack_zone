@@ -2,29 +2,37 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { SharedData, type NavItem } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
 
-const sidebarNavItems: NavItem[] = [
-    {
-        title: 'Profile',
-        href: '/settings/profile',
-        icon: null,
-    },
-    {
-        title: 'Password',
-        href: '/settings/password',
-        icon: null,
-    },
-    {
+
+
+export default function SettingsLayout({ children }: PropsWithChildren) {
+    const { auth } = usePage<SharedData>().props;
+
+    const sidebarNavItems: NavItem[] = [
+        {
+            title: 'Profile',
+            href: '/settings/profile',
+            icon: null,
+        },
+        {
+            title: 'Password',
+            href: '/settings/password',
+            icon: null,
+        }
+    ];
+
+if(auth?.user && auth.user.is_admin){
+    sidebarNavItems.push({
         title: 'Appearance',
         href: '/settings/appearance',
         icon: null,
-    },
-];
+    },);
+}
 
-export default function SettingsLayout({ children }: PropsWithChildren) {
+
     // When server-side rendering, we only render the layout on the client...
     if (typeof window === 'undefined') {
         return null;

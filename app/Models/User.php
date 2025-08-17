@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -64,6 +65,42 @@ class User extends Authenticatable
             'is_verified' => 'boolean',
             'is_available_for_hire' => 'boolean',
         ];
+    }
+
+    public function setAvatarAttribute($value)
+    {
+        if ($value) {
+            // Delete old avatar if it exists and is not a URL
+            if ($this->avatar && !str_starts_with($this->avatar, 'http')) {
+                $oldAvatarPath = storage_path('app/public/' . $this->avatar);
+                if (file_exists($oldAvatarPath)) {
+                    unlink($oldAvatarPath);
+                }
+            }
+
+            // Check if the value is base64 encoded
+            if (str_starts_with($value, 'data:image/')) {
+                // Extract the base64 data
+                $base64Data = substr($value, strpos($value, ',') + 1);
+                $imageData = base64_decode($base64Data);
+
+                // Get the file extension from the mime type
+                preg_match('/data:image\/([a-zA-Z0-9]+);/', $value, $matches);
+                $extension = $matches[1] ?? 'png';
+
+                // Generate a unique filename
+                $filename = 'avatars/' . uniqid() . '.' . $extension;
+
+                // Store the file
+                \Storage::disk('public')->put($filename, $imageData);
+
+                $this->attributes['avatar'] = 'storage/' . $filename;
+            } else {
+                // Handle file upload
+                $this->attributes['avatar'] = 'storage/' . $value->store('avatars', 'public');
+            }
+        }
+        return $this->attributes['avatar'];
     }
 
     // Relationships

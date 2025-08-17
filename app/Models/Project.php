@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Project extends Model
+class Project extends BaseModel
 {
-    use HasFactory;
 
     protected $fillable = [
         'title',

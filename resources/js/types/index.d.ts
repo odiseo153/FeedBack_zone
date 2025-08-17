@@ -37,6 +37,7 @@ export interface User {
     email: string;
     username?: string;
     avatar?: string;
+    is_admin?: boolean;
     avatar_url: string;
     bio?: string;
     github_username?: string;

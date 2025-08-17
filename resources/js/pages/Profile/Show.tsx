@@ -11,17 +11,9 @@ import {
     Users, MessageCircle, Award, Briefcase, Mail,
     Edit, UserPlus, UserCheck, ExternalLink
 } from 'lucide-react';
-import { User, Project } from '@/types';
+import { User } from '@/types';
 import { PostCard } from '@/components/post/post-card';
 import { transformProjectToPost } from '@/lib/utils';
-
-interface Tag {
-    id: number;
-    name: string;
-    slug: string;
-    color: string;
-    type: string;
-}
 
 
 
@@ -44,9 +36,8 @@ interface ShowProfileProps {
 
 export default function ShowProfile({ user,  stats, auth }: ShowProfileProps) {
     const [activeTab, setActiveTab] = useState('overview');
-    const [projects, setProjects] = useState<Project[]>(user.projects || []);
+    const projects = user.projects || [];
 
-    console.log(user);
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -70,6 +61,12 @@ export default function ShowProfile({ user,  stats, auth }: ShowProfileProps) {
     const isOwnProfile = auth.user?.id === user.id;
     const reputationInfo = getReputationLevel(user.reputation_score);
 
+     const getAvatarUrl = () => {
+        if (user.avatar && user.avatar.startsWith('data:')) {
+            return user.avatar;
+        }
+        return 'http://localhost:8000/' + user.avatar || '';
+    };
 
     return (
         <AppLayout>
@@ -93,7 +90,7 @@ export default function ShowProfile({ user,  stats, auth }: ShowProfileProps) {
                             <CardHeader className="text-center">
                                 <div className="relative inline-block">
                                     <Avatar className="w-32 h-32 mx-auto mb-4">
-                                        <AvatarImage src={user.avatar_url} />
+                                        <AvatarImage src={getAvatarUrl()} />
                                         <AvatarFallback className="text-3xl">
                                             {getInitials(user.name)}
                                         </AvatarFallback>
@@ -127,7 +124,7 @@ export default function ShowProfile({ user,  stats, auth }: ShowProfileProps) {
 
                                 {/* Action Buttons */}
                                 <div className="flex gap-2 mt-4">
-                                    {isOwnProfile ? (
+                                    {isOwnProfile || auth.user?.is_admin ? (
                                         <Button className="flex-1" asChild>
                                             <Link href={route('profile.edit')}>
                                             <Edit className="w-4 h-4 mr-2" />

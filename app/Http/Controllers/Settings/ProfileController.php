@@ -16,7 +16,7 @@ class ProfileController extends Controller
     /**
      * Show the user's profile settings page.
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request)
     {
         return Inertia::render('settings/profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
@@ -24,10 +24,20 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function appearance(Request $request)
+    {
+        if (!$request->user()->is_admin) {
+            return redirect()->route('dashboard');
+        }
+
+        return Inertia::render('settings/appearance');
+    }
+
+
     /**
      * Update the user's profile settings.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
         $request->user()->fill($request->validated());
 
@@ -35,7 +45,7 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $request->user()->update($request->validated());
 
         return to_route('profile.edit');
     }
@@ -43,8 +53,9 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
+
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);

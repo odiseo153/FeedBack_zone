@@ -2,11 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class CommentType extends Model
+class CommentType extends BaseModel
 {
-    /** @use HasFactory<\Database\Factories\CommentTypeFactory> */
-    use HasFactory;
+
 }

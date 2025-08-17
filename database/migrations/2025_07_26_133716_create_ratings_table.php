@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('overall_score')->comment('Rating 1-5 overall');
             $table->text('review_comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->unique(['project_id', 'user_id']); // One rating per user per project
             $table->index(['project_id', 'overall_score']);

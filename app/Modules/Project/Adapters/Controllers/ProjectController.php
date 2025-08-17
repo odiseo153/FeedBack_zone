@@ -87,7 +87,7 @@ class ProjectController extends BaseController
         }
 
         // Check if user owns the project
-        if ($project->user_id !== auth()->id()) {
+        if ($project->user_id !== auth()->id() && !auth()->user()->is_admin) {
             abort(403);
         }
 

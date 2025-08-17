@@ -29,6 +29,7 @@ return new class extends Migration
             $table->json('tech_stack')->nullable(); // Array of technologies used
             $table->boolean('is_featured')->default(false);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['user_id', 'created_at']);
             $table->index(['status', 'created_at']);

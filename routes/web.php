@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     })->middleware(['auth', 'verified'])->name('dashboard');
 
     Route::get('/profile', [UserController::class, 'editProfile'])->name('profile.edit');
-    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update.web');
     Route::delete('/profile', [UserController::class, 'destroyProfile'])->name('profile.destroy');
 });
 

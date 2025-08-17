@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('edited_at')->nullable();
             $table->foreignId('comment_type_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->index(['project_id', 'created_at']);
             $table->index(['user_id', 'created_at']);
