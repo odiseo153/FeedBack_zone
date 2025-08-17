@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\Tag;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProjectSeeder extends Seeder
@@ -32,6 +31,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['React', 'Node.js', 'MongoDB', 'Socket.io', 'Tailwind CSS'],
                 'views_count' => 1250,
                 'likes_count' => 89,
+                'thumbnail' => 'https://picsum.photos/200/300',
                 'comments_count' => 23,
                 'tags' => ['React', 'Node.js', 'MongoDB', 'Project Management']
             ],
@@ -47,6 +47,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['React Native', 'Firebase', 'Redux', 'Chart.js'],
                 'views_count' => 890,
                 'likes_count' => 67,
+                'thumbnail' => 'https://picsum.photos/200/300',
                 'comments_count' => 15,
                 'tags' => ['React Native', 'Mobile', 'Firebase', 'Environment']
             ],
@@ -61,6 +62,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
                 'views_count' => 2100,
                 'likes_count' => 156,
+                'thumbnail' => 'https://picsum.photos/200/400', 
                 'comments_count' => 34,
                 'tags' => ['Next.js', 'TypeScript', 'Tailwind CSS', 'Portfolio']
             ],
@@ -74,6 +76,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['Java', 'Spring Boot', 'Docker', 'Kubernetes', 'PostgreSQL', 'RabbitMQ'],
                 'views_count' => 756,
                 'likes_count' => 43,
+                'thumbnail' => 'https://picsum.photos/200/200',
                 'comments_count' => 18,
                 'tags' => ['Java', 'Spring Boot', 'Microservices', 'Docker']
             ],
@@ -89,6 +92,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['Python', 'TensorFlow', 'FastAPI', 'React', 'PostgreSQL'],
                 'views_count' => 1450,
                 'likes_count' => 98,
+                'thumbnail' => 'https://picsum.photos/200/500',
                 'comments_count' => 27,
                 'tags' => ['Python', 'TensorFlow', 'AI', 'Chatbot']
             ],
@@ -103,6 +107,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['Unity', 'C#', 'Photoshop'],
                 'views_count' => 1890,
                 'likes_count' => 134,
+                'thumbnail' => 'https://picsum.photos/200/600',
                 'comments_count' => 41,
                 'tags' => ['Unity', 'C#', 'Game Development', 'Pixel Art']
             ],
@@ -116,6 +121,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['Docker', 'Kubernetes', 'Terraform', 'Python', 'AWS'],
                 'views_count' => 540,
                 'likes_count' => 32,
+                'thumbnail' => 'https://picsum.photos/200/200',
                 'comments_count' => 12,
                 'tags' => ['Docker', 'Kubernetes', 'DevOps', 'AWS']
             ],
@@ -130,6 +136,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['Laravel', 'Vue.js', 'MySQL', 'Stripe', 'Redis'],
                 'views_count' => 980,
                 'likes_count' => 71,
+                'thumbnail' => 'https://picsum.photos/200/300',
                 'comments_count' => 19,
                 'tags' => ['Laravel', 'Vue.js', 'E-commerce', 'Stripe']
             ],
@@ -146,6 +153,7 @@ class ProjectSeeder extends Seeder
                 'views_count' => 1670,
                 'likes_count' => 112,
                 'comments_count' => 28,
+                'thumbnail' => 'https://picsum.photos/200/400',
                 'tags' => ['React', 'Design System', 'Storybook', 'Accessibility']
             ],
             [
@@ -159,6 +167,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => ['React', 'D3.js', 'Node.js', 'Express', 'Weather API'],
                 'views_count' => 720,
                 'likes_count' => 54,
+                'thumbnail' => 'https://picsum.photos/200/500',
                 'comments_count' => 16,
                 'tags' => ['React', 'D3.js', 'Data Visualization', 'Weather']
             ]
@@ -181,6 +190,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => $projectData['tech_stack'],
                 'views_count' => $projectData['views_count'] ?? rand(50, 500),
                 'likes_count' => $projectData['likes_count'] ?? rand(5, 50),
+                'thumbnail' => $projectData['thumbnail'] ?? null,
                 'comments_count' => $projectData['comments_count'] ?? rand(0, 20),
                 'created_at' => now()->subDays(rand(1, 90)),
                 'updated_at' => now()->subDays(rand(0, 30)),
@@ -219,6 +229,7 @@ class ProjectSeeder extends Seeder
                 'tech_stack' => $this->generateRandomTechStack(),
                 'views_count' => rand(10, 1000),
                 'likes_count' => rand(0, 80),
+                'thumbnail' => 'https://picsum.photos/200/200',
                 'comments_count' => rand(0, 25),
                 'created_at' => now()->subDays(rand(1, 180)),
                 'updated_at' => now()->subDays(rand(0, 60)),

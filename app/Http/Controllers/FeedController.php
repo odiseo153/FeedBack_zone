@@ -14,7 +14,7 @@ class FeedController extends Controller
         $query = Project::with(['user', 'tags', 'ratings'])
             ->published()
             ->withCount(['comments', 'ratings'])
-            ->orderBy('created_at', 'desc');
+            ->orderBy('projects.created_at', 'desc');
 
         // Filter by project type
         if ($request->has('type') && $request->type !== 'all') {
@@ -25,7 +25,8 @@ class FeedController extends Controller
         if ($request->has('tags') && !empty($request->tags)) {
             $tags = is_array($request->tags) ? $request->tags : explode(',', $request->tags);
             $query->whereHas('tags', function ($q) use ($tags) {
-                $q->whereIn('slug', $tags);
+                $q->whereIn('slug', $tags)
+                ->orderBy('tags.id', 'desc');
             });
         }
 
@@ -33,13 +34,13 @@ class FeedController extends Controller
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%")
+                $q->where('projects.title', 'like', "%{$search}%")
+                  ->orWhere('projects.description', 'like', "%{$search}%")
                   ->orWhereHas('user', function ($userQuery) use ($search) {
-                      $userQuery->where('name', 'like', "%{$search}%");
+                      $userQuery->where('users.name', 'like', "%{$search}%")->orderBy('users.id', 'desc');
                   })
                   ->orWhereHas('tags', function ($tagQuery) use ($search) {
-                      $tagQuery->where('name', 'like', "%{$search}%");
+                      $tagQuery->where('tags.name', 'like', "%{$search}%")->orderBy('tags.id', 'desc');
                   });
             });
         }
@@ -56,14 +57,14 @@ class FeedController extends Controller
                           ->orderBy('average_rating', 'desc');
                     break;
                 case 'oldest':
-                    $query->orderBy('created_at', 'asc');
+                    $query->orderBy('projects.created_at', 'asc');
                     break;
                 default:
-                    $query->orderBy('created_at', 'desc');
+                    $query->orderBy('projects.created_at', 'desc');
             }
         }
 
-        $projects = $query->paginate(12)->withQueryString();
+        $projects = $query->paginate(12);
 
         // Get available tags for filtering
         $availableTags = Tag::popular()

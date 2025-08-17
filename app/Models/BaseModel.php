@@ -51,9 +51,15 @@ class BaseModel extends Model
     public function saveFileAtributte($column, $file, $folder = 'files')
     {
         if ($file) {
+            // If it's just a text/URL, store it directly
+            if (is_string($file) && !str_starts_with($file, 'data:') && !is_uploaded_file($file)) {
+                $this->attributes[$column] = $file;
+                return $this->attributes[$column];
+            }
+
             // Delete old file if it exists and is not a URL
-            if ($this->$column && !str_starts_with($this->$column, 'http')) {
-                $oldFilePath = storage_path('app/public/' . $this->$column);
+            if ($this->$column && !str_starts_with($this->$column, 'http') && str_contains($this->$column, 'storage/')) {
+                $oldFilePath = storage_path('app/public/' . str_replace('storage/', '', $this->$column));
                 if (file_exists($oldFilePath)) {
                     unlink($oldFilePath);
                 }
@@ -90,7 +96,7 @@ class BaseModel extends Model
 
                 $this->attributes[$column] = 'storage/' . $filename;
             } else {
-                // Handle regular file upload
+                // Handle regular file upload (File object)
                 $this->attributes[$column] = 'storage/' . $file->store($folder, 'public');
             }
         }

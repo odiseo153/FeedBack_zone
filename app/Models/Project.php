@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Project extends BaseModel
@@ -114,9 +112,6 @@ class Project extends BaseModel
 
     public function setThumbnailAttribute($value)
     {
-        if ($value) {
-            $this->attributes['thumbnail'] = 'storage/' . $value->store('project-thumbnails', 'public');
-        }
-        return $this->attributes['thumbnail'];
+     return $this->saveFileAtributte('thumbnail', $value);
     }
 }

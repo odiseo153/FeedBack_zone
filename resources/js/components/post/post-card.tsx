@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Heart, MessageCircle, ExternalLink, Github, Star } from "lucide-react"
+import { urlApi } from "@/lib/utils"
 
 interface Post {
   id: string
@@ -20,8 +21,8 @@ interface Post {
   projectType: string
   liveUrl?: string
   githubUrl?: string
-  images: string[]
   tags: string[]
+  thumbnail?: string | null
   createdAt: string
   likes: number
   comments: number
@@ -55,14 +56,11 @@ export function PostCard({ post }: PostCardProps) {
     }
   }
 
- // const handleLike = likeProject(parseInt(post.id))
-/*
-const handleComment = commentOnProject(() => {
-  // Navigate to project detail page and scroll to comments
-  window.location.href = `/projects/${post.id}#comments`
-})
-*/
+ const limitTags = 3;
 
+const projectImage = post.thumbnail ? (post.thumbnail.startsWith("http") ? post.thumbnail : urlApi + post.thumbnail) : "/placeholder.svg"
+
+console.log(post)
   return (
     <Card className="group overflow-hidden border-0 bg-white shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl">
       <CardHeader className="pb-3">
@@ -102,11 +100,11 @@ const handleComment = commentOnProject(() => {
           <p className="text-muted-foreground mt-2 line-clamp-3 text-sm sm:text-base">{post.description}</p>
         </div>
 
-        {post.images.length > 0 && (
+        {projectImage && (
           <Link href={`/projects/${post.id}`}>
             <div className="relative aspect-video rounded-xl overflow-hidden cursor-pointer ring-1 ring-gray-100 group-hover:ring-blue-200/60 transition">
               <img
-                src={post.images[0] || "/placeholder.svg"}
+                src={projectImage}
                 alt={post.title}
                 className="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
               />
@@ -116,15 +114,38 @@ const handleComment = commentOnProject(() => {
         )}
 
         {post.techStack.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {post.techStack.slice(0, 4).map((tech) => (
-              <Badge key={tech} variant="secondary" className="text-[10px] sm:text-xs rounded-full">
-                {tech}
-              </Badge>
-            ))}
-            {post.techStack.length > 4 && (
-              <Badge variant="outline" className="text-[10px] sm:text-xs rounded-full">
-                +{post.techStack.length - 4}
+          <div className="flex mt-3 flex-wrap gap-2">
+            {post.techStack.slice(0, 4).map((tech, index) => {
+              const colors = [
+                'bg-blue-500/10 text-blue-700 border-blue-200/50',
+                'bg-purple-500/10 text-purple-700 border-purple-200/50',
+                'bg-green-500/10 text-green-700 border-green-200/50',
+                'bg-pink-500/10 text-pink-700 border-pink-200/50',
+                'bg-indigo-500/10 text-indigo-700 border-indigo-200/50',
+                'bg-orange-500/10 text-orange-700 border-orange-200/50',
+                'bg-teal-500/10 text-teal-700 border-teal-200/50',
+                'bg-red-500/10 text-red-700 border-red-200/50',
+                'bg-cyan-500/10 text-cyan-700 border-cyan-200/50',
+                'bg-emerald-500/10 text-emerald-700 border-emerald-200/50'
+              ];
+              const colorClass = colors[index % colors.length];
+              
+              return (
+                <Badge 
+                  key={tech} 
+                  variant="outline" 
+                  className={`text-[10px] sm:text-xs rounded-full px-2.5 py-1 font-medium border transition-all duration-200 hover:scale-105 hover:shadow-sm ${colorClass}`}
+                >
+                  {tech}
+                </Badge>
+              );
+            })}
+            {post.techStack.length > limitTags && (
+              <Badge 
+                variant="outline" 
+                className="text-[10px] sm:text-xs rounded-full px-2.5 py-1 bg-gray-100/80 text-gray-600 border-gray-200/50 font-medium hover:bg-gray-200/80 transition-colors duration-200"
+              >
+                +{post.techStack.length - limitTags}
               </Badge>
             )}
           </div>

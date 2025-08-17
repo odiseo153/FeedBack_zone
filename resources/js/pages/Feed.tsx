@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { Head, router } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AppLayout from '@/layouts/app-layout';
@@ -67,6 +67,11 @@ export default function Feed({
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [searchSuggestions, setSearchSuggestions] = useState<Project[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const updateFilters = useCallback((newFilters: Partial<typeof filters>) => {
     router.get(window.location.pathname, {
@@ -80,8 +85,64 @@ export default function Feed({
 
   const handleSearch = useCallback((e: React.FormEvent) => {
     e.preventDefault();
+    setShowSuggestions(false);
     updateFilters({ search: searchQuery });
   }, [searchQuery, updateFilters]);
+
+  const fetchSearchSuggestions = useCallback(async (query: string) => {
+    if (query.length < 1) {
+      setSearchSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+        const SearchingProjects=
+        projects.data.
+        filter(x => x.title.toLowerCase().includes(query.toLowerCase()) || x.description.toLowerCase().includes(query.toLowerCase()) );
+
+      setSearchSuggestions(SearchingProjects || []);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error('Error fetching search suggestions:', error);
+      setSearchSuggestions([]);
+    } finally {
+      setIsSearching(false);
+    }
+  }, []);
+
+  const handleSearchInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+
+    // Clear existing timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    // Set new timeout for search suggestions
+    searchTimeoutRef.current = setTimeout(() => {
+      fetchSearchSuggestions(value);
+    }, 300);
+  }, [fetchSearchSuggestions]);
+
+
+  const handleClickOutside = useCallback((e: MouseEvent) => {
+    if (searchInputRef.current && !searchInputRef.current.contains(e.target as Node)) {
+      setShowSuggestions(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+      }
+    };
+  }, [handleClickOutside]);
 
   const toggleTag = useCallback((tagSlug: string) => {
     const newTags = selectedTags.includes(tagSlug)
@@ -177,41 +238,109 @@ export default function Feed({
                 </Button>
               </div>
 
-              {/* Search Bar */}
+              {/* Search Bar with Suggestions */}
               <form onSubmit={handleSearch} className="relative max-w-3xl mx-auto mb-6 lg:mb-8">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
-                </div>
-                <Input
-                  type="text"
-                  placeholder="Search projects, technologies, or developers..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-24 sm:pr-36 h-12 sm:h-14 text-base sm:text-lg rounded-full border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 shadow-sm transition-all duration-200"
-                  aria-label="Search projects"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center gap-2 pr-2">
-                  <Button
-                    type="submit"
-                    size="sm"
-                    className="h-8 sm:h-10 px-4 sm:px-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105"
-                    aria-label="Submit search"
-                  >
-                    <span className="hidden sm:inline">Search</span>
-                    <Search className="w-4 h-4 sm:hidden" />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setShowFilters(!showFilters)}
-                    className={`hidden lg:flex h-8 sm:h-10 px-3 sm:px-4 rounded-full border-2 transition-all duration-200 ${showFilters ? 'bg-blue-50 border-blue-200 text-blue-700' : 'hover:bg-gray-50'}`}
-                    aria-label="Toggle filters"
-                  >
-                    <Filter className="w-4 h-4" />
-                  </Button>
-                </div>
-              </form>
+                <div className="relative" ref={searchInputRef}>
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <Input
+                    type="text"
+                    placeholder="Search projects, technologies, or developers..."
+                    value={searchQuery}
+                    onChange={handleSearchInputChange}
+                    onFocus={() => searchQuery.length >=1 && setShowSuggestions(true)}
+                    className="pl-12 pr-24 sm:pr-36 h-12 sm:h-14 text-base sm:text-lg rounded-full border-2 border-gray-200 focus:border-blue-500 focus:ring-blue-500/20 shadow-sm transition-all duration-200"
+                    aria-label="Search projects"
+                  />
+                  <div className="absolute inset-y-0 right-0 flex items-center gap-2 pr-2">
+                    <Button
+                      type="submit"
+                      size="sm"
+                      className="h-8 sm:h-10 px-4 sm:px-6 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105"
+                      aria-label="Submit search"
+                    >
+                      <span className="hidden sm:inline">Search</span>
+                      <Search className="w-4 h-4 sm:hidden" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowFilters(!showFilters)}
+                      className={`hidden lg:flex h-8 sm:h-10 px-3 sm:px-4 rounded-full border-2 transition-all duration-200 ${showFilters ? 'bg-blue-50 border-blue-200 text-blue-700' : 'hover:bg-gray-50'}`}
+                      aria-label="Toggle filters"
+                    >
+                      <Filter className="w-4 h-4" />
+                    </Button>
+                  </div>
+                  </div>
+                  </form>
+
+                  {/* Search Suggestions Dropdown */}
+                  <AnimatePresence>
+                    {showSuggestions && (searchSuggestions.length > 0 || isSearching) && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className=" top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 max-h-96 overflow-y-auto"
+                      >
+                        {isSearching ? (
+                          <div className="p-4 text-center text-gray-500">
+                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                            Searching...
+                          </div>
+                        ) : (
+                          <>
+                            <div className="p-3 border-b border-gray-100">
+                              <h4 className="text-sm font-semibold text-gray-700">Project Suggestions</h4>
+                            </div>
+                            {searchSuggestions.map((project, index) => (
+                              <motion.div
+                                key={project.id}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.2, delay: index * 0.05 }}
+                                className="p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-b-0 transition-colors duration-150"
+                                onClick={() => {
+                                    window.location.href = `/projects/${project.id}`;
+                                }}
+                              >
+                                <div className="flex items-start gap-3">
+                                  <div className="flex-1 min-w-0">
+                                    <h5 className="font-medium text-gray-900 truncate">{project.title}</h5>
+                                    <p className="text-sm text-gray-500 line-clamp-2 mt-1">{project.description}</p>
+                                    <div className="flex items-center gap-2 mt-2">
+                                      <span className="text-xs text-gray-400">by {project.user?.name}</span>
+                                      {project.tags && project.tags.length > 0 && (
+                                        <div className="flex gap-1">
+                                          {project.tags.map((tag) => (
+                                            <Badge
+                                              key={tag.id}
+                                              variant="secondary"
+                                              className="text-xs px-2 py-0.5"
+                                              style={{ backgroundColor: tag.color + '20', color: tag.color }}
+                                            >
+                                              {tag.name}
+                                            </Badge>
+                                          ))}
+                                          {project.tags.length > 2 && (
+                                            <span className="text-xs text-gray-400">+{project.tags.length - 2}</span>
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            ))}
+                          </>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
               {/* Filters */}
               <AnimatePresence>
@@ -609,7 +738,7 @@ const FilterContent = ({
       </div>
     </div>
 
-    {/* Technology Tags */}
+    {/* Technology Tags 
     {showTags && (
       <div>
         <h4 className="text-sm font-semibold text-gray-700 mb-3">Filter by Technologies</h4>
@@ -641,5 +770,6 @@ const FilterContent = ({
         </div>
       </div>
     )}
+                    */}
   </motion.div>
 );

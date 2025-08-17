@@ -23,7 +23,7 @@ export function transformProjectToPost(project: Project) {
     projectType: project.project_type,
     liveUrl: project.live_url,
     githubUrl: project.github_url,
-    images: project.thumbnail_url ? [project.thumbnail_url] : [],
+    thumbnail: project.thumbnail,
     tags: project.tags?.map((tag: Tag) => tag.name) || [],
     createdAt: new Date(project.created_at).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -43,3 +43,6 @@ export function transformProjectToPost(project: Project) {
     aiSummary: project.feedback_request || `This ${project.project_type} project showcases ${project.tech_stack?.slice(0, 2).join(' and ')} implementation with modern development practices.`,
   }
 }
+
+
+export const urlApi = import.meta.env.VITE_API_URL;
